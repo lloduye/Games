@@ -38,7 +38,7 @@ function Input_Decimal(dot) {
 }
 
 //This section handles operands
-function Handle_Operators(Next_Operator) {
+function Handle_Operator(Next_Operator) {
     const {First_Operand,Display_Value,operator} =Calculator;
     //when an operator key is pressed we convert the current number
     //displayed on the screento a number and then stored the reult in
@@ -57,5 +57,65 @@ function Handle_Operators(Next_Operator) {
         //If operator exists, property lookup is performed for the operator
         //in the perform_calculation object and the function that matches the 
         //operator is executed
+        let result=Perform_Calculation[operator] (Value_Now, Value_of_Input);
+        //here we add a fixed amount of numbers after the decimal.
+        result=Number(result).toFixed(9);
+        //this will remove anything trailing 0's
+        result= (result*1).toString();
+        Calculator.Display_Value=parseFloat(result);
+        Calculator.operator=parseFloat(result);
     }
+    Calculator.Wait_Second_Operand=true;
+    Calculator.operator=Next_Operator;
 }
+const Perform_Calculation= {
+    "/":(First_Operand,Second_Operand) =>First_Operand/Second_Operand,
+    "*":(First_Operand,Second_Operand) =>First_Operand*Second_Operand,
+    "+":(First_Operand,Second_Operand) =>First_Operand+Second_Operand,
+    "-":(First_Operand,Second_Operand) =>First_Operand-Second_Operand,
+    "=":(First_Operand,Second_Operand) =>Second_Operand
+};
+function Calculator_Reset() {
+    Calculator.Display_Value="0";
+    Calculator.First_Operand=null;
+    Calculator.Wait_Second_Operand=false;
+    Calculator.operator=null;
+}
+//This function updates the calculator screen with the contents of Display_Value
+function Update_Display() {
+    //make use of the calculator sceen class to target the
+    //input tag in html document
+    const display=document.querySelector(".calculator-keys");
+    display.value=Calculator.Display_Value;
+}
+
+Update_Display();
+//This section monitors button clicks
+const keys=document.querySelector(".calculator-keys");
+keys.addEventListener("click", (event)=>{
+    //the target is variable is an object that represents the element
+    //that was clicked.
+    const{target}=event;
+    //if the element that was clicked on is not abutton, exit the funtion.
+    if(!target.matches("button")) {
+        return;
+    }
+    if(target.classList.contains("operator")) {
+        Handle_Operator(target.value);
+        Update_Display();
+        return;
+    }
+    if (target.classList.contains("decimal")) {
+        Input_Decimal(target.value);
+        Update_Display();
+        return;
+    }
+    //Ensures that AC clears all input from the calculator screen.
+    if(target.classList.contains("all-clear")) {
+        Calculator_Reset();
+        Update_Display();
+        return;
+    }
+    Input_Digit(target.value);
+    Update_Display();
+})
