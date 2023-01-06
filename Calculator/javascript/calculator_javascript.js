@@ -85,7 +85,7 @@ function Calculator_Reset() {
 function Update_Display() {
     //make use of the calculator sceen class to target the
     //input tag in html document
-    const display=document.querySelector(".calculator-keys");
+    const display=document.querySelector(".calculator-screen");
     display.value=Calculator.Display_Value;
 }
 
@@ -96,7 +96,7 @@ keys.addEventListener("click", (event)=>{
     //the target is variable is an object that represents the element
     //that was clicked.
     const{target}=event;
-    //if the element that was clicked on is not abutton, exit the funtion.
+    //if the element that was clicked on is not a button, exit the funtion.
     if(!target.matches("button")) {
         return;
     }
