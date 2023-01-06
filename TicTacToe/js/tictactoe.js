@@ -105,7 +105,7 @@ function checkWinConditions () {
     //9 squares are selected the code executes.
     else if (selectedSquares.length>=9) {
         //this function plays the tie game sound.
-        Audio("./media/tie.mp3");
+        audio("./media/tie.mp3");
         //This function sets a .3 second timer before the resetGame is called
         setTimeout(function() {resetGame();},500);
     }
@@ -217,7 +217,7 @@ function resetGame() {
     //for this loop iterates through each HTML element i.
     for (let i=0; i<9; i++) {
         //this variable gets the HTML element i.
-        let square=document.getElementById(string(i));
+        let square=document.getElementById(String(i));
         //this removes our elements background image
         square.style.backgroundImage="";
     }
