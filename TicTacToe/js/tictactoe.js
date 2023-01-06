@@ -195,7 +195,7 @@ function drawWinLine (coordX1, coordY1, coordX2, coordY2) {
     }
     //This function clears our canvas after our win line is drawn.
     function clear() {
-        //this line atarts animation loop.
+        //this line starts animation loop.
         const animationLoop=requestAnimationFrame(clear);
         //this line clears our canvas
         c.clearRect(0,0,608,608);
@@ -210,4 +210,17 @@ function drawWinLine (coordX1, coordY1, coordX2, coordY2) {
     animateLineDrawing();
     //This line waits 1 second. Then, clears canvas, resets game, and allows clicking again.
     setTimeout(function () { clear(); resetGame(); }, 1000);
+}
+
+//This function resets the game in the event of a tie or win.
+function resetGame() {
+    //for this loop iterates through each HTML element i.
+    for (let i=0; i<9; i++) {
+        //this variable gets the HTML element i.
+        let square=document.getElementById(string(i));
+        //this removes our elements background image
+        square.style.backgroundImage="";
+    }
+    //This resets our array so its empty and we can start over.
+    selectedSquares=[];
 }
